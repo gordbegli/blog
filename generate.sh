@@ -34,8 +34,14 @@ add_home_link() {
 # Function to create extensionless route directory (e.g. X/X -> X/X/index.html)
 create_extensionless_route() {
     local html_file=$1
+    local custom_route_path=${2:-}
     local route_path="${html_file%.html}"
     local route_index="${route_path}/index.html"
+
+    if [[ -n "$custom_route_path" ]]; then
+        route_path="$custom_route_path"
+        route_index="${route_path}/index.html"
+    fi
 
     if [[ -f "$route_path" ]]; then
         rm -f "$route_path"
@@ -51,6 +57,12 @@ create_extensionless_route() {
     # Make relative assets (images, local links) resolve from parent post directory.
     sed -i '' '/<head>/a\
   <base href="../" />' "$route_index"
+}
+
+# Convert title text to URL path segment (spaces -> hyphens, keep ASCII letters/numbers/hyphens)
+slugify_title() {
+    local title=$1
+    printf '%s' "$title" | sed 's/ /-/g; s/[^A-Za-z0-9-]//g; s/--*/-/g; s/^-//; s/-$//'
 }
 
 # Function to retrieve the first commit date of a file
@@ -175,8 +187,15 @@ get_post_metadata_entries | sort -t $'\t' -k1,1nr | while IFS=$'\t' read -r inde
         title="$index"
     fi
 
-    route_file="./$index/$index/"
+    route_slug=$(slugify_title "$title")
+
+    if [[ -z "$route_slug" ]]; then
+        route_slug="$index"
+    fi
+
+    route_file="./$index/$route_slug/"
     markdown_file="./$index/$index.md"
+    html_file="./$index/$index.html"
 
     if [[ ! -f "$markdown_file" ]]; then
         continue
@@ -184,6 +203,10 @@ get_post_metadata_entries | sort -t $'\t' -k1,1nr | while IFS=$'\t' read -r inde
 
     if [[ -z "$post_date" ]]; then
         post_date=$(get_first_commit_date "$markdown_file")
+    fi
+
+    if [[ -f "$html_file" ]]; then
+        create_extensionless_route "$html_file" "./$index/$route_slug"
     fi
 
     cat << EOF >> index.html
