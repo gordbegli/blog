@@ -31,6 +31,28 @@ add_home_link() {
 <a href="/" class="nav-link">Home</a>' "$file"
 }
 
+# Function to create extensionless route directory (e.g. X/X -> X/X/index.html)
+create_extensionless_route() {
+    local html_file=$1
+    local route_path="${html_file%.html}"
+    local route_index="${route_path}/index.html"
+
+    if [[ -f "$route_path" ]]; then
+        rm -f "$route_path"
+    fi
+
+    if [[ -d "$route_path" ]]; then
+        rm -rf "$route_path"
+    fi
+
+    mkdir -p "$route_path"
+    cp "$html_file" "$route_index"
+
+    # Make relative assets (images, local links) resolve from parent post directory.
+    sed -i '' '/<head>/a\
+  <base href="../" />' "$route_index"
+}
+
 # Function to retrieve the first commit date of a file
 get_first_commit_date() {
     local file=$1
@@ -53,11 +75,53 @@ get_first_commit_date() {
     echo "$first_date"
 }
 
-# Remove existing HTML files in all numbered folders (handles renamed posts)
-find . -type f -path "./[0-9]*" -name "*.html" -delete
+# Print post metadata lines as: id<TAB>title<TAB>date
+get_post_metadata_entries() {
+    python3 - <<'PY'
+import json
+from pathlib import Path
 
-# Convert Markdown to HTML, excluding README.md
-find . -type f -path "./[0-9]/*" -name "*.md" ! -name "README.md" | while read -r file; do
+path = Path("posts.json")
+if not path.exists():
+    raise SystemExit(0)
+
+data = json.loads(path.read_text(encoding="utf-8"))
+for post in data.get("posts", []):
+    post_id = str(post.get("id", "")).strip()
+    title = str(post.get("title", "")).strip()
+    date = str(post.get("date", "")).strip()
+
+    if not post_id:
+        continue
+
+    print(f"{post_id}\t{title}\t{date}")
+PY
+}
+
+# Return markdown files that match the X/X.md convention (excluding private)
+get_post_markdown_files() {
+    find . -mindepth 2 -maxdepth 2 -type f -name "*.md" ! -name "README.md" ! -path "./private/*" | while read -r file; do
+        parent_dir=$(basename "$(dirname "$file")")
+        base_name=$(basename "$file" .md)
+
+        if [[ "$parent_dir" == "$base_name" ]]; then
+            echo "$file"
+        fi
+    done
+}
+
+# Remove existing HTML files generated from X/X.md sources
+find . -mindepth 2 -maxdepth 2 -type f -name "*.html" ! -path "./private/*" | sort -r | while read -r file; do
+    parent_dir=$(basename "$(dirname "$file")")
+    base_name=$(basename "$file" .html)
+
+    if [[ "$parent_dir" == "$base_name" ]]; then
+        rm -f "$file"
+    fi
+done
+
+# Convert Markdown to HTML from X/X.md sources
+get_post_markdown_files | while read -r file; do
     output_file="${file%.md}.html"
     echo "Converting '$file' to '$output_file'..."
 
@@ -73,6 +137,9 @@ find . -type f -path "./[0-9]/*" -name "*.md" ! -name "README.md" | while read -
     
     # Add home navigation link
     add_home_link "$output_file"
+
+    # Create extensionless route for local static servers (e.g., live-server)
+    create_extensionless_route "$output_file"
 done
 
 # Generate index.html
@@ -98,20 +165,32 @@ cat << EOF > index.html
         <div>
 EOF
 
-# Generate list items for each post
-find . -type f -path "./[0-9]/*" -name "*.html" | sort -r | while read -r file; do
-    index=$(basename "$(dirname "$file")")
-    # Replace hyphens with spaces in the title for display
-    title=$(basename "$file" .html | sed 's/-/ /g')
-    # Remove .html extension from the href URL
-    clean_file=$(echo "$file" | sed 's/\.html$//')
-    markdown_file="${file%.html}.md"
-    post_date=$(get_first_commit_date "$markdown_file")
+# Generate list items for each post (newest/highest id first)
+get_post_metadata_entries | sort -t $'\t' -k1,1nr | while IFS=$'\t' read -r index title post_date; do
+    if [[ -z "$index" ]]; then
+        continue
+    fi
+
+    if [[ -z "$title" ]]; then
+        title="$index"
+    fi
+
+    route_file="./$index/$index/"
+    markdown_file="./$index/$index.md"
+
+    if [[ ! -f "$markdown_file" ]]; then
+        continue
+    fi
+
+    if [[ -z "$post_date" ]]; then
+        post_date=$(get_first_commit_date "$markdown_file")
+    fi
+
     cat << EOF >> index.html
             <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:0.5rem;">
                 <span>$index.</span>
-                <a href="$clean_file">$title</a>
-                <span style="color:#777; font-size:0.9em; margin-left:auto;">$post_date</span>
+                <a href="$route_file">$title</a>
+                <span style="color:#8a6f61; font-size:0.9em; margin-left:auto;">$post_date</span>
             </div>
 EOF
 done
@@ -182,7 +261,7 @@ cat << 'EOF' > about.html
 
         .media-item figcaption {
             font-size: 0.9rem;
-            color: #555;
+            color: #7a5f54;
         }
     </style>
 </head>
@@ -218,9 +297,20 @@ This file contains all blog posts for easy consumption by LLMs.
 EOF
 
 # Add each post to llms.txt
-find . -type f -path "./[0-9]/*" -name "*.md" ! -name "README.md" | sort | while read -r file; do
-    index=$(basename "$(dirname "$file")")
-    title=$(basename "$file" .md | sed 's/-/ /g')
+get_post_metadata_entries | while IFS=$'\t' read -r index title post_date; do
+    if [[ -z "$index" ]]; then
+        continue
+    fi
+
+    file="./$index/$index.md"
+
+    if [[ ! -f "$file" ]]; then
+        continue
+    fi
+
+    if [[ -z "$title" ]]; then
+        title="$index"
+    fi
     
     {
         echo "## Post $index: $title"

@@ -10,15 +10,15 @@ html {
 }
 
 body {
-    color: #444;
+    color: #3b2f2a;
     font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
-    font-size: 16px;
+    font-size: 21px;
     line-height: 1.7;
     padding: 1em;
     padding-bottom: 12vh;
     margin: auto;
     max-width: 42em;
-    background: #fefefe;
+    background: #f6e9de;
     position: relative;
 }
 
@@ -26,22 +26,22 @@ body {
     position: absolute;
     top: 1em;
     right: 1em;
-    font-size: 14px;
+    font-size: 18px;
     text-decoration: none;
-    color: #0645ad;
+    color: #8a3d2f;
 }
 
 a {
-    color: #0645ad;
+    color: #8a3d2f;
     text-decoration: none;
 }
 
 a:visited {
-    color: #0b0080;
+    color: #6f2f24;
 }
 
 a:hover {
-    color: #06e;
+    color: #a24a39;
 }
 
 a:active {
@@ -64,12 +64,12 @@ a:focus {
 
 a::-moz-selection {
     background: rgba(255, 255, 0, 0.3);
-    color: #0645ad;
+    color: #8a3d2f;
 }
 
 a::selection {
     background: rgba(255, 255, 0, 0.3);
-    color: #0645ad;
+    color: #8a3d2f;
 }
 
 p {
@@ -86,7 +86,7 @@ h3,
 h4,
 h5,
 h6 {
-    color: #111;
+    color: #2a1f1a;
     line-height: 125%;
     margin-top: 2em;
     font-weight: normal;
@@ -123,16 +123,16 @@ h6 {
 }
 
 blockquote {
-    color: #666666;
+    color: #6b564b;
     margin: 0;
     padding-left: 3em;
-    border-left: 0.5em #EEE solid;
+    border-left: 0.5em #d9b9a6 solid;
 }
 
 hr {
     display: block;
     border: 0;
-    border-top: 1px solid #aaa;
+    border-top: 1px solid #c6a898;
     margin: 1em 0;
     padding: 0;
 }
@@ -259,8 +259,8 @@ mjx-container[jax="CHTML"][display="true"] {
 
 table {
     margin-bottom: 2em;
-    border-bottom: 1px solid #ddd;
-    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #d5bbab;
+    border-right: 1px solid #d5bbab;
     border-spacing: 0;
     border-collapse: collapse;
     width: 100%;
@@ -270,16 +270,16 @@ table {
 
 table th {
     padding: .2em 1em;
-    background-color: #eee;
-    border-top: 1px solid #ddd;
-    border-left: 1px solid #ddd;
+    background-color: #ecd8cb;
+    border-top: 1px solid #d5bbab;
+    border-left: 1px solid #d5bbab;
     white-space: nowrap;
 }
 
 table td {
     padding: .2em 1em;
-    border-top: 1px solid #ddd;
-    border-left: 1px solid #ddd;
+    border-top: 1px solid #d5bbab;
+    border-left: 1px solid #d5bbab;
     vertical-align: top;
 }
 
@@ -290,13 +290,13 @@ table td {
 
 @media only screen and (min-width: 480px) {
     body {
-        font-size: 16px;
+        font-size: 21px;
     }
 }
 
 @media only screen and (min-width: 768px) {
     body {
-        font-size: 18px;
+        font-size: 23px;
     }
 }
 

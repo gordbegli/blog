@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>3</title>
+    <meta name="description" content="# Basic Probability Theory">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="/pandoc.css" />
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<a href="/" class="nav-link">Home</a>
+<h1 id="basic-probability-theory">Basic Probability Theory</h1>
+<blockquote>
+<p>These notes follow the first few chapters of <a
+href="https://www.amazon.com/Probability-Theory-Science-T-Jaynes/dp/0521592712">Probability
+Theory: The Logic of Science</a>. They still need to be cleaned up, so
+please forgive any typos or the like.</p>
+</blockquote>
+<h2 id="chapters-1-2">Chapters 1-2</h2>
+<p>These three things.</p>
+<ol type="1">
+<li>Probabilities represented as real numbers.<br />
+</li>
+<li>Common sense applied to these numbers.<br />
+</li>
+<li>Consistency: Equivalent Knowledge -&gt; Equivalent Conclusion</li>
+</ol>
+<p>Allow you to derive the product and sum rules. (<a
+href="https://en.wikipedia.org/wiki/Cox%27s_theorem">Cox’s
+Theorem</a>)</p>
+<p><span class="math display">\[P(AB|C) = P(A|C)P(B|AC)\]</span> <span
+class="math display">\[P(A+B|C) = P(A|C) + P(B|C) - P(AB|C)\]</span></p>
+<p>Any truth defined in terms of atomic propositions can be represented
+in DNF form as a disjunction (logical sum) of conjunctions (logical
+products) of atomic propositions.</p>
+<p>The derived rules allow you to reduce any such DNF to a computable
+form.</p>
+<details>
+<summary>
+<strong>Exercise 2.3</strong>
+</summary>
+<span class="math display">\[
+\begin{aligned}
+&amp;\textbf{SHOW } 0 \leq P(AB|C) \leq P(A|C) \\
+&amp;0 \leq P(B|AC) \leq 1 \\
+&amp;0 \leq P(A|C)P(B|AC) \leq P(A|C) \\
+&amp;0 \leq P(AB|C) \leq P(A|C) \\
+\\
+&amp;\textbf{SHOW } P(B|C) \leq P(A+B|C) \leq 1 \\
+&amp;P(B|C) \leq P(A+B|C) \leq 1 \\
+&amp;P(B|C) \leq P(A\bar{B}|C)+P(B|C) \leq 1 \\
+&amp;0 \leq P(A\bar{B}|C) \leq 1-P(B|C) \\
+&amp;0 \leq P(A|C)-P(AB|C) \leq 1-P(B|C) \\
+&amp;P(B|C) \leq P(A|C) + P(B|C) - P(AB|C) \leq 1 \\
+&amp;P(B|C) \leq P(A|C) + P(B|C) - P(AB|C) \leq 1 \\
+&amp;P(B|C) \leq P(A+B|C) \leq 1 \\
+\\
+&amp;\textbf{SHOW IF } P(A|C)+P(B|C)&gt;1 \textbf{ THE BOUNDS ON } 0
+\leq P(AB|C) \leq P(A|C) \textbf{ TIGHTEN} \\
+&amp;0 \leq P(X) \leq 1 \\
+&amp;P(AB|C) \leq 1 \\
+&amp;P(A|C)+P(B|C)-P(AB|C) \leq 1 \\
+&amp;P(A|C)+P(B|C) \leq 1+P(AB|C) \\
+&amp;P(A|C)+P(B|C)-1 \leq P(AB|C) \\
+\\
+&amp;\textbf{SHOW IF } P(A|C)+P(B|C)&lt;1 \textbf{ THE BOUNDS ON }
+P(B|C) \leq P(A+B|C) \leq 1 \textbf{ TIGHTEN} \\
+&amp;0 \leq P(AB|C) \\
+&amp;0 \leq P(A|C)+P(B|C)-P(A|C)-P(B|C)+P(AB|C) \\
+&amp;0 \leq P(A|C)+P(B|C)-P(A+B|C) \\
+&amp;P(A+B|C) \leq P(A|C)+P(B|C)
+\end{aligned}
+\]</span>
+</details>
+<h2 id="chapter-3">Chapter 3</h2>
+<p>This chapter is about sampling theory. Starting from the product and
+sum rules, and given some starting information, like the balls in a
+Bernoulli urn, you can say a lot about the likelihood of samples using
+things like Binomial Coefficients.</p>
+<p>One interesting trick that comes up a lot in the exercises… When you
+are reasoning about expected future events, you can take the inverse of
+the event not occurring, instead of trying to add potentially
+overlapping sequences in which the event does occur.</p>
+<p>Before getting into sampling with replacement, Jaynes makes a big
+point in 3.8.1 about the difference between reality and models with
+respect to randomization. It’s probably worth a few rereads. “From a
+mere act of the imagination we cannot learn anything about the real
+world”.</p>
+<details>
+<summary>
+<strong>Terms</strong>
+</summary>
+<p><em>The binomial coefficient:</em><br />
+“<span class="math inline">\(m\)</span> choose <span
+class="math inline">\(n\)</span>” = The number of combinations of <span
+class="math inline">\(n\)</span> items from <span
+class="math inline">\(m\)</span> items. The formula is <span
+class="math inline">\(\frac{m!}{n!(m-n)!}\)</span></p>
+<p><em>The non-obvious (but kinda obvious) symmetries:</em></p>
+<ol type="1">
+<li>For any Bernoulli Urn type problem, if the only knowledge you have
+is the starting conditions of the Urn, the probability of any draw is
+<span class="math inline">\(M/N\)</span>.<br />
+</li>
+<li>Information’s utility for inference is symmetric with respect to
+time.</li>
+</ol>
+<p><em>The method of calculation:</em></p>
+<ol type="1">
+<li>Resolve X into mutually exclusive <span
+class="math inline">\((X_1,X_2,...,X_n)\)</span>. Doing this in a way
+such that the mutually exclusive propositions are <em>easily
+calculable</em> is a skill.</li>
+<li>Apply Sum &amp; Product</li>
+</ol>
+<p><em>Invariant under permutation:</em><br />
+Is jargon for “Order doesn’t matter.”</p>
+<p><em>Exchangeable distribution:</em><br />
+The probability for a sequence of events is independent of their
+order.</p>
+<p><em>Expectation:</em><br />
+Weighted average of possible values according to their
+probabilities.</p>
+<p><em>Probability:</em><br />
+A value numerically equal to the expectation of a fraction.</p>
+</details>
+<details>
+<summary>
+<strong>Exercise 3.1</strong>
+</summary>
+n! gives permutations for whom the sets of r and non-r values are
+equivalent in all but order. It’s fun to think of these things like a
+slot machine.
+</details>
+<details>
+<summary>
+<strong>Exercise on pg 67</strong>
+</summary>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\text{(using product rule)} \\
+&amp;\text{WE WANT } P(R_k|R_{later},B) \\
+&amp;\text{USING THE PRODUCT RULE} \\
+&amp;P(AB|C) = P(A|BC)P(B|C) \\
+&amp;P(AB|C) = P(B|AC)P(A|C) \\
+&amp;P(A|BC)P(B|C) = P(B|AC)P(A|C) \\
+&amp;P(A|BC) = \frac{P(B|AC)P(A|C)}{P(B|C)} \\
+&amp;\text{SO WE CAN SAY} \\
+&amp;P(R_k|R_{later},B) =
+\frac{P(R_{later}|R_k,B)P(R_k|B)}{P(R_{later}|B)} \\
+&amp;\text{BY SYMMETRY} \\
+&amp;P(R_k|B) = \frac{M}{N} \\
+&amp;\text{BY COUNTING} \\
+&amp;P(R_{later}|B) = 1 - \frac{\binom{N-M}{s}}{\binom{N}{s}} \\
+&amp;P(R_{later}|R_k,B) = 1 - \frac{\binom{N-M}{s}}{\binom{N-1}{s}} \\
+&amp;\text{PLUGGING IN THESE VALUES WE GET} \\
+&amp;P(R_k|R_{later},B) = \frac{ \left[ 1 -
+\frac{\binom{N-M}{s}}{\binom{N-1}{s}} \right] \frac{M}{N} }{ 1 -
+\frac{\binom{N-M}{s}}{\binom{N}{s}} } \\
+&amp;\text{WHICH SIMPLIFIES TO 3.56} \\
+\\
+&amp;\text{(using 3.72)} \\
+&amp;1, 2, 3, 4, 5, \dots, k, \dots, n, \dots \\
+&amp;s: k+1 \to n \\
+&amp;T: \text{reds in } s \\
+&amp;M: \text{red ball count (through n)} \\
+&amp;W_{later}: \text{All } s \text{ draws are white} \\
+&amp;B: \text{No replacement. N. M.} \\
+&amp;\text{FROM 3.72} \\
+&amp;P(R_k|R_{later},B) = E \left[ \frac{M-t}{N-s} \bigg| T \geq 1,B
+\right] \\
+&amp;P(R_k|T=t,B) = \frac{M-t}{N-s} \\
+&amp;P(R_k|R_{later},B) = \frac{1}{N-s} (M-E[T|T \geq 1,B]) \\
+&amp;\text{SOLVE FOR } E[T|T \geq 1,B] \\
+&amp;E[T|T \geq 1,B] = \frac{E[T|B]}{P(T \geq 1|B)} =
+\frac{sM/N}{1-\frac{\binom{N-M}{s}}{\binom{N}{s}}} \\
+&amp;\text{If you plug in this value to the prior equation it can be
+transformed algebraically to 3.56.}
+\end{aligned}
+\]</span></p>
+</details>
+<details>
+<summary>
+<strong>Exercise 3.2</strong>
+</summary>
+<p>Start with a basic <span class="math inline">\(A_1\)</span>
+case.<br />
+<span class="math display">\[P(A_1) =
+\frac{\binom{N-N_1}{m}}{\binom{N}{m}}\]</span></p>
+<p>Expand to <span class="math inline">\(A_1, A_2, A_3\)</span> case.
+<span class="math display">\[
+\begin{aligned}
+&amp;\text{ALL SINGLE MISSES FOR } P(A_1 + A_2 + A_3) \\
+&amp;\frac{\binom{N-N_1}{m}}{\binom{N}{m}} +
+\frac{\binom{N-N_2}{m}}{\binom{N}{m}} +
+\frac{\binom{N-N_3}{m}}{\binom{N}{m}} \\
+\\
+&amp;\text{ALL DOUBLE MISSES FOR } P(A_1 + A_2 + A_3) \\
+&amp;\frac{\binom{N-(N_1+N_2)}{m}}{\binom{N}{m}} +
+\frac{\binom{N-(N_2+N_3)}{m}}{\binom{N}{m}} +
+\frac{\binom{N-(N_1+N_3)}{m}}{\binom{N}{m}} \\
+\\
+&amp;\text{ALL TRIPLE MISSES FOR } P(A_1 + A_2 + A_3) \\
+&amp;\frac{\binom{N-(N_1+N_2+N_3)}{m}}{\binom{N}{m}} \\
+\\
+&amp;P(A_1+A_2+A_3) = \\
+&amp;\left[ \frac{\binom{N-N_1}{m}}{\binom{N}{m}} +
+\frac{\binom{N-N_2}{m}}{\binom{N}{m}} +
+\frac{\binom{N-N_3}{m}}{\binom{N}{m}} \right] \\
+&amp;- \\
+&amp;\left[ \frac{\binom{N-(N_1+N_2)}{m}}{\binom{N}{m}} +
+\frac{\binom{N-(N_2+N_3)}{m}}{\binom{N}{m}} +
+\frac{\binom{N-(N_1+N_3)}{m}}{\binom{N}{m}} \right] \\
+&amp;+ \\
+&amp;\frac{\binom{N-(N_1+N_2+N_3)}{m}}{\binom{N}{m}}
+\end{aligned}
+\]</span></p>
+<p>Expand to general <span class="math inline">\(A_1, \dots,
+A_k\)</span> case. <span class="math display">\[
+\begin{aligned}
+\frac{1}{\binom{N}{m}} \bigg[
+&amp;\sum_{i} \binom{N - N_i}{m} \\
+-&amp;\sum_{i&lt;j} \binom{N - (N_i + N_j)}{m} \\
++&amp;\sum_{i&lt;j&lt;l} \binom{N - (N_i + N_j + N_l)}{m} \\
+-&amp;\sum_{i&lt;j&lt;l&lt;t} \binom{N - (N_i + N_j + N_l + N_t)}{m} \\
+&amp;\dots \text{ continuing this pattern } \dots \\
+&amp;(-1)^{r+1} \sum_{i_1&lt;\dots&lt;i_r} \binom{N - (N_{i_1} + \dots +
+N_{i_r})}{m} \\
+&amp;\dots \text{ up to } \dots \\
+&amp;(-1)^{k+1} \binom{N - (N_1 + N_2 + \dots + N_k)}{m}
+\bigg].
+\end{aligned}
+\]</span></p>
+<p>For <span class="math inline">\(k=5, N_i=10\)</span>, how many do we
+need to draw to have <span
+class="math inline">\(1-P(\bar{F})=0.9\)</span> <span
+class="math display">\[
+\begin{aligned}
+P(\bar{F}) = \frac{ \binom{5}{1}\binom{40}{m} -
+\binom{5}{2}\binom{30}{m} + \binom{5}{3}\binom{20}{m} -
+\binom{5}{4}\binom{10}{m} + \binom{5}{5}\binom{0}{m} }{ \binom{50}{m} }.
+\end{aligned}
+\]</span> For <span class="math inline">\(m=15\)</span>, <span
+class="math inline">\((1-P(\bar{F})) \geq 0.9\)</span></p>
+</details>
+<details>
+<summary>
+<strong>Exercise 3.3</strong>
+</summary>
+<p><a
+href="https://chatgpt.com/share/6913d29e-12c4-8011-ac0f-7b89b7de30b6">I
+tried ChatGPT study mode for this question.</a></p>
+<blockquote>
+<p>Big Idea: How likely would it be to observe the evidence we have if,
+when emptied, the bag had a purported state?</p>
+</blockquote>
+</details>
+<details>
+<summary>
+<strong>Exercise 3.4</strong>
+</summary>
+<p>First let’s nail down the probability for a single match. <span
+class="math display">\[
+\begin{aligned}
+&amp;P(A_1) = \frac{1}{M} \\
+&amp;P(A_1 A_2) = \frac{(M-2)!}{M!} \\
+&amp;P(A_1 A_2 \cdots A_k) = \frac{(M-k)!}{M!} \\
+&amp;P(A_1 A_2 \cdots A_k) =
+\frac{(M-k)(M-k-1)\dots(1)}{(M)(M-1)\dots(M-k)(M-k-1)\dots(1)} \\
+&amp;P(A_1 A_2 \cdots A_k) = \frac{1}{(M)(M-1)\dots(M-k+1)}
+\end{aligned}
+\]</span> Then by inclusion exclusion we can describe the probability
+for all matches. <span class="math display">\[
+\begin{aligned}
+&amp;[\text{Logical Sum of Single Matches}] - \\
+&amp;[\text{Logical Sum of Logical Products of Double Matches}] + \\
+&amp;[\text{Logical Sum of Logical Products of Triple Matches}] - \\
+&amp;\dots
+\end{aligned}
+\]</span> Now we have to turn this into the term that is provided in the
+book. <span class="math display">\[
+(-1)^{k+1} \quad \text{\# This is clearly used for the alternating
+sign.}
+\]</span> The SUM operator is clearly used for adding all the positive
+and negative logical sums. <span class="math display">\[
+\sum_{k=1}^{M}
+\]</span> The last question is how to get <span
+class="math inline">\(1/k!\)</span> as a representation of the
+individual terms. <span class="math display">\[
+\begin{aligned}
+&amp;\binom{M}{k} \frac{(M-k)!}{M!} \\
+&amp;\frac{M!}{k!(M-k)!} \frac{(M-k)!}{M!} \\
+&amp;\frac{1}{k!(M-k)!} \frac{(M-k)!}{1} \\
+&amp;\frac{1}{k! \times 1} \times \frac{1}{1} \\
+&amp;\frac{1}{k!}
+\end{aligned}
+\]</span></p>
+</details>
+<details>
+<summary>
+<strong>Exercise 3.5</strong>
+</summary>
+<p>Out of <span class="math inline">\(M^N\)</span> ways that N balls can
+be tossed into M urns what percentage of the time does every urn receive
+at least one ball?</p>
+<p>Let’s find the logical sum of the probabilities of each urn
+<em>not</em> receiving a ball. <span class="math display">\[
+\begin{aligned}
+&amp;P(U_1) = \text{&quot;Urn } U_1 \text{ does not receive a
+ball.&quot;} \\
+&amp;P(U_1) = \left(\frac{M-1}{M}\right)^N \\
+&amp;P(U_1 U_2) = \left(\frac{M-2}{M}\right)^N \\
+&amp;P(U_1 U_2 \cdots U_k) = \left(\frac{M-k}{M}\right)^N
+\end{aligned}
+\]</span></p>
+<p>We want to find the logical sum of all possible <span
+class="math inline">\(P(U_1 U_2 \cdots U_k)\)</span> where <span
+class="math inline">\(1 \leq k\)</span>. This will be equivalent to “the
+logical sum of all sequences where some urn does not have a ball”. We
+will subtract this value from 1. In order to avoid the double counting
+that we would get by just adding everything we have to use inclusion
+exclusion. <span class="math display">\[
+\begin{aligned}
+&amp;P(U_1+U_2+\dots+U_M) = \\
+&amp;[\text{Logical Sum of Singletons}] - \\
+&amp;[\text{Logical Sum of Logical Products of Double Matches}] + \\
+&amp;[\text{Logical Sum of Logical Products of Triple Matches}] - \\
+&amp;\dots
+\end{aligned}
+\]</span></p>
+We can represent one less this value more elegantly using some algebra.
+<span class="math display">\[
+1 - \sum_{k=1}^{M} \left( (-1)^{k+1} \binom{M}{k}
+\left(\frac{M-k}{M}\right)^N \right)
+\]</span>
+</details>
+<details>
+<summary>
+<strong>Exercise 3.6</strong>
+</summary>
+<p>The Jth draw comes <em>before</em> the Kth draw. We are asking the
+question “if the second draw was red, what was the probability of the
+prior draw being red?”. This can be represented with the following
+statement. <span class="math display">\[
+P(R_j | R_k, C) = \frac{P(R_k | R_j, C) P(R_j | C)}{P(R_k | C)}
+\]</span></p>
+<p>Now we substitute <span class="math inline">\(P(R_j|C)\)</span> &amp;
+<span class="math inline">\(P(R_k|C)\)</span> with a result from the
+following formula given to us in 3.118. <span class="math display">\[
+P(R_k|C) = (p - \delta) + (\epsilon + \delta)^{k - 1} \frac{p\epsilon -
+q\delta}{1 - \epsilon - \delta}
+\]</span></p>
+<p>After substitution we arrive at the following. <span
+class="math display">\[
+P(R_j | R_k, C) = \frac{P(R_k | R_j, C) \left( (p - \delta) + (\epsilon
++ \delta)^{j - 1} \frac{p\epsilon - q\delta}{1 - \epsilon - \delta}
+\right) }{ (p - \delta) + (\epsilon + \delta)^{k - 1} \frac{p\epsilon -
+q\delta}{1 - \epsilon - \delta} }
+\]</span></p>
+<p>The last term to replace is <span class="math inline">\(P(R_k | R_j,
+C)\)</span> which is available in 3.128. <span class="math display">\[
+P(R_k|R_j,C) =
+(p-\delta)+(\epsilon+\delta)^{k-j}\frac{q-\epsilon}{1-\epsilon-\delta},
+\quad \text{for } j &lt; k
+\]</span></p>
+<p>After substitution our final formula is the following. <span
+class="math display">\[
+P(R_j | R_k, C) = \frac{ \left(
+(p-\delta)+(\epsilon+\delta)^{k-j}\frac{q-\epsilon}{1-\epsilon-\delta}
+\right) \left( (p - \delta) + (\epsilon + \delta)^{j - 1}
+\frac{p\epsilon - q\delta}{1 - \epsilon - \delta} \right) }{ (p -
+\delta) + (\epsilon + \delta)^{k - 1} \frac{p\epsilon - q\delta}{1 -
+\epsilon - \delta} }
+\]</span></p>
+<p>Now we answer some of the remaining questions.</p>
+<blockquote>
+<p>Explain the reason for the difference between forward and backward
+inferences in simple intuitive terms</p>
+</blockquote>
+<p>Forward inference looks at the future given the past. Backward
+inference looks at the past given the present. The likelihood of past
+outcomes needs to be weighed according to the likelihood of the present
+outcome.</p>
+<blockquote>
+<p>In what way does the backward inference differ from the forward
+inference extrapolated backward?</p>
+</blockquote>
+<p>The backward inference differs from the forward inference
+extrapolated backward because the backward one does not make the
+assumption that the odds of red have not changed over time.</p>
+<blockquote>
+<p>Do backward inferences also decay to steady values? If so, is a
+property somewhat like exchangeability restored for events sufficiently
+separated? For example, if we consider only every tenth draw or every
+hundredth draw, do we approach an exchangeable distribution on this
+subset?</p>
+</blockquote>
+<p>Backward inferences also decay to steady values. To <span
+class="math inline">\((p-\delta)(P(R_j|C)/(p-\delta))\)</span>, which is
+just <span class="math inline">\(P(R_j|C)\)</span>. So yes, sufficiently
+separated events are roughly exchangeable.</p>
+</details>
+<h2 id="chapter-4">Chapter 4</h2>
+<h3 id="hypothesis-testing">Hypothesis Testing</h3>
+<p>This chapter is about hypothesis testing. If sampling theory is about
+imagining the colors of balls we will draw from an urn, given a certain
+hypothesis about the urn, hypothesis testing is about assigning
+likelihoods to hypotheses about the urn given sensory information having
+drawn from it.</p>
+<p>This new data is called <strong>D</strong>, and all other data is
+called <strong>X</strong>. If we call a given hypothesis
+<strong>H</strong>, we can use the product rule to get the following.
+<span class="math display">\[
+P(DH|X) = P(D|HX)P(H|X) = P(H|DX)P(D|X)
+\]</span></p>
+<p>From this we derive <span class="math display">\[
+P(H|DX) = \frac{P(D|HX)P(H|X)}{P(D|X)}
+\]</span></p>
+<p>In English, this states the following. <span class="math display">\[
+P(\text{hypothesis}|\text{data}, \text{prior}) = \frac{P(\text{data} |
+\text{hypothesis}, \text{prior}) P(\text{hypothesis} |
+\text{prior})}{P(\text{data} | \text{prior})}
+\]</span></p>
+<h3 id="evidence">Evidence</h3>
+<p>Evidence sways our belief in <strong>H</strong> by causing us to
+update our prior belief <strong>X</strong> about the odds of the
+hypothesis before seeing the new data <strong>D</strong>. Suppose there
+are two competing hypotheses. Let’s calculate posterior odds after
+observing new data.</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\text{Posterior Odds} = \text{Likelihood Ratio} \times \text{Prior
+Odds} \\
+&amp;\frac{P(H_1|DX)}{P(H_2|DX)} = \frac{P(D|H_1,X)}{P(D|H_2,X)} \times
+\frac{P(H_1|X)}{P(H_2|X)}
+\end{aligned}
+\]</span></p>
+<p>For convenience, we can transform evidence into an intuitive and
+additive format. For this purpose we can take ten times the log base ten
+of our odds to get “decibels of evidence”. <span class="math display">\[
+\text{Posterior Decibels of Belief} = 10 \log_{10} \left(
+\frac{P(H|DX)}{P(\bar{H}|DX)} \right)
+\]</span></p>
+<h3 id="mind-projection-fallacy">Mind Projection Fallacy</h3>
+<p>Jaynes makes a great point in this chapter that the outcomes of
+uncertain events are not distributed, <strong>our</strong> expectations
+are. And this is what is meant by probability. (unless we’re talking
+about quarks or something like that? edit: Jaynes says that this is also
+mind projection fallacy lol)</p>
+<details>
+<summary>
+<strong>Terms</strong>
+</summary>
+<p><em>Normalization Factor: P(D|X)</em><br />
+Weighted average of P(D|HX) over all H, weighted by their prior
+probabilities P(H|X)<br />
+Used as common denominator so that each posterior:<br />
+<span class="math display">\[P(H_i|DX) =
+\frac{P(D|H_iX)P(H_i|X)}{P(D|X)}\]</span></p>
+<p><em>“Odds on H given D and X:”</em><br />
+<span class="math display">\[P(H|DX)/P(\bar{H}|DX)\]</span></p>
+<p><em>Independence:</em><br />
+Is a property of our state of mind’s beliefs about a logical connection,
+or lack thereof, between two events.</p>
+</details>
+<details>
+<summary>
+<strong>Exercise 4.1</strong>
+</summary>
+<blockquote>
+<p>This is pretty much a rip of astroboy’s <a
+href="https://stats.stackexchange.com/questions/8823/has-anyone-solved-ptlos-exercise-4-1">solution</a>
+. Shoutout to astroboy, I think I understand the intuition after reading
+through his solution.</p>
+</blockquote>
+<p>This exercise is asking us to prove that if P(<span
+class="math inline">\(D_1\)</span>, …, <span
+class="math inline">\(D_m\)</span>) is independent under both <span
+class="math inline">\(H_i\)</span> and <span
+class="math inline">\(\bar{H_i}\)</span> and there are more than
+<strong>two</strong> <span class="math inline">\(H_i\)</span>, then at
+most one likelihood ratio for a given datum <span
+class="math inline">\(\frac{P(D_j|H_i X)}{P(D_j|\bar{H_i}X)}\)</span> is
+meaningful with respect to discerning which hypothesis is more likely
+(not equal to one).</p>
+<p>To solve this, first consider <span
+class="math inline">\(P(D_i|D_j\bar{H_a}X)\)</span>.</p>
+<p>Recall the product rule from the initial chapters.</p>
+<p><span class="math inline">\(P(AB|C)=P(A|BC)P(B|C)\)</span></p>
+<p>We can divide both sides <span class="math inline">\(P(B|C)\)</span>
+and get</p>
+<p><span class="math inline">\(\frac{P(AB|C)}{P(B|C)} =
+P(A|BC)\)</span></p>
+<p>If we set <span class="math inline">\(A=D_i\)</span>, <span
+class="math inline">\(B=D_j\bar{H_a}\)</span>, <span
+class="math inline">\(C=X\)</span>, then we get <span
+class="math inline">\(P(D_iD_j\bar{H_a}|X)=P(D_i|D_j\bar{H_a}X)\cdot{P(D_j\bar{H_a}|X)}\)</span>.</p>
+<p>Now solve for the first factor on the right side</p>
+<p><span
+class="math inline">\(P(D_i|D_j\bar{H_a}X)=\frac{P(D_iD_j\bar{H_a}|X)}{P(D_j\bar{H_a}|X)}\)</span>.</p>
+<p>Now given <span class="math inline">\(\overline{H_a} = \sum_{b \neq
+a} H_b\)</span>, and plugging this into our equation, we get</p>
+<p><span class="math display">\[
+P(D_i | D_j \overline{H_a} X) = \frac{\sum_{b \neq a} P(D_i | D_j H_b X)
+P(D_j H_b | X)}{\sum_{b \neq a} P(D_j H_b | X)}
+= \frac{\sum_{b \neq a} P(D_i | H_b X) P(D_j H_b | X)}{\sum_{b \neq a}
+P(D_j H_b | X)}
+\]</span></p>
+<p>For any <span class="math inline">\(n&gt;2\)</span> this equation
+will <em>not</em> simplify to <span
+class="math inline">\(P(D_i|\bar{H_a}X)\)</span></p>
+<p>Since independence under <span
+class="math inline">\(\bar{H}_a\)</span> cannot hold when <span
+class="math inline">\(n &gt; 2\)</span>, the only way to avoid
+contradiction is if <span class="math inline">\(P(D_j|H_aX) =
+P(D_j|\bar{H}_aX)\)</span> for all but one datum, making their
+likelihood ratios equal to 1 and thus non-informative.</p>
+<p>Admittedly this hand-waviness is a bit short of the full 4 page
+proof, but intuitively</p>
+<p><span class="math inline">\(\bar{H}\)</span> when <span
+class="math inline">\(n&gt;2\)</span> means “there are a few conflicting
+stories that could explain the data, and I ruled one of them out”.</p>
+<p>If you look at one datum, it is going to affect your estimations of
+the remaining hypotheses.</p>
+<p>So the <em>impact</em> of the second piece of data will depend on the
+first, because it is also conditioned on <span
+class="math inline">\(\bar{H}\)</span>, whose meaning has changed.</p>
+</details>
+<details>
+<summary>
+<strong>Exercise 4.2</strong>
+</summary>
+<p>In this exercise, we are given three plausible <span
+class="math inline">\(H\)</span>, <span class="math inline">\(\{A, B,
+C\}\)</span>, where under <span class="math inline">\(X\)</span>…</p>
+<p><span class="math inline">\(P(A|X) = \frac{1}{11} \cdot
+(1-10^{-6})\)</span><br />
+<span class="math inline">\(P(B|X) = \frac{10}{11} \cdot
+(1-10^{-6})\)</span><br />
+<span class="math inline">\(P(C|X) = 10^{-6}\)</span></p>
+<p>These are our initial probability assignments to three plausible
+stories we can imagine that will explain data that we sense with our
+eyeballs and nervous system. The data is the “number of bad widgets
+produced by a widget factory”. Obviously this is a contrived situation,
+because in reality maybe we are not considering hypothesis <span
+class="math inline">\(D\)</span>, that the factory is engaging in <a
+href="https://www.google.com/search?q=ghosty+shift+manuffacturing&amp;rlz=1C5CHFA_enUS1124US1124&amp;oq=ghosty+shift+manuffacturing&amp;gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDQxMjVqMGo5qAIAsAIB&amp;sourceid=chrome&amp;ie=UTF-8">ghost
+shift manufacturing</a> which puts additional wear on the machines and
+results in more bad widgets being produced, at a rate we can’t really
+predict. For the sake of the math however, we continue.</p>
+<p>We also know, (unrealistically), the ratio of good and bad widgets
+coming out of the factory for each of the 3 plausible stories in our
+head.</p>
+<p><span class="math inline">\(A = \frac{1}{3}\)</span> of widgets are
+bad<br />
+<span class="math inline">\(B = \frac{1}{6}\)</span> of widgets are
+bad<br />
+<span class="math inline">\(C = \frac{99}{100}\)</span> of widgets are
+bad</p>
+<p>The exercise asks us to calculate a fraction, <span
+class="math inline">\(f_1\)</span>. The text defines <span
+class="math inline">\(f_1\)</span> as the average ratio of good and bad
+widgets that we see and touch coming out of the factory, as the number
+of widgets coming out of the factory approaches <span
+class="math inline">\(\infty\)</span> which would cause our belief that
+<span class="math inline">\(C\)</span> is the story that corresponds to
+the world we are living in to neither approach certainty or
+falsehood.</p>
+<p>We already know from our readings in this chapter that the way that
+evidence updates our beliefs is through the use of <em>likelihood
+ratios</em>. In order for our infinite supply of good and bad widgets
+coming out of the factory to have no effect on our belief in <span
+class="math inline">\(C\)</span>, the likelihood ratio produced by these
+widgets, must, on average, be unity.</p>
+<p>Where <span class="math inline">\(n\)</span> is the number of widgets
+we observe, the formula for the likelihood ratio (which must equal 1) is
+as follows. (The exponents are just fancy algebra to multiply each base
+by the number of bad and good widgets observed.)</p>
+<p><span class="math inline">\(1 =
+\left[\frac{P(\text{bad}|C)}{P(\text{bad}|\bar{C})}\right]^{n \cdot f_1}
+\cdot \left[\frac{P(\text{good}|C)}{P(\text{good}|\bar{C})}\right]^{n
+\cdot (1-f_1)}\)</span></p>
+<p>If you don’t know how to use <span
+class="math inline">\(\log\)</span> here you’re kinda screwed, because
+it’s super useful to solve this equation for <span
+class="math inline">\(f_1\)</span>.</p>
+<p><span class="math display">\[
+\log(1) =
+\log\left(\left[\frac{P(\text{bad}|C)}{P(\text{bad}|\bar{C})}\right]^{n
+\cdot f_1} \cdot
+\left[\frac{P(\text{good}|C)}{P(\text{good}|\bar{C})}\right]^{n \cdot
+(1-f_1)}\right)
+\]</span> <span class="math display">\[
+0 = (n \cdot f_1) \cdot
+\log\left(\frac{P(\text{bad}|C)}{P(\text{bad}|\bar{C})}\right) + (n
+\cdot (1-f_1)) \cdot
+\log\left(\frac{P(\text{good}|C)}{P(\text{good}|\bar{C})}\right)
+\]</span> <span class="math display">\[
+0 = f_1 \cdot
+\log\left(\frac{P(\text{bad}|C)}{P(\text{bad}|\bar{C})}\right) + (1-f_1)
+\cdot \log\left(\frac{P(\text{good}|C)}{P(\text{good}|\bar{C})}\right)
+\]</span> <span class="math display">\[
+0 = f_1 \cdot
+\log\left(\frac{P(\text{bad}|C)}{P(\text{bad}|\bar{C})}\right) +
+\log\left(\frac{P(\text{good}|C)}{P(\text{good}|\bar{C})}\right) - f_1
+\cdot \log\left(\frac{P(\text{good}|C)}{P(\text{good}|\bar{C})}\right)
+\]</span> <span class="math display">\[
+0 = f_1 \cdot
+\left(\log\left(\frac{P(\text{bad}|C)}{P(\text{bad}|\bar{C})}\right) -
+\log\left(\frac{P(\text{good}|C)}{P(\text{good}|\bar{C})}\right)\right)
++ \log\left(\frac{P(\text{good}|C)}{P(\text{good}|\bar{C})}\right)
+\]</span> <span class="math display">\[
+-\log\left(\frac{P(\text{good}|C)}{P(\text{good}|\bar{C})}\right) = f_1
+\cdot
+\left(\log\left(\frac{P(\text{bad}|C)}{P(\text{bad}|\bar{C})}\right) -
+\log\left(\frac{P(\text{good}|C)}{P(\text{good}|\bar{C})}\right)\right)
+\]</span> <span class="math display">\[
+\frac{-\log\left(\frac{P(\text{good}|C)}{P(\text{good}|\bar{C})}\right)}{\left(\log\left(\frac{P(\text{bad}|C)}{P(\text{bad}|\bar{C})}\right)
+-
+\log\left(\frac{P(\text{good}|C)}{P(\text{good}|\bar{C})}\right)\right)}
+= f_1
+\]</span></p>
+<p>Now at this point we can do another fancy step. We can say that <span
+class="math inline">\(\bar{C}\)</span> is <em>really</em> just an
+amalgamation of <span class="math inline">\(A\)</span> and <span
+class="math inline">\(B\)</span>.</p>
+<p><span class="math display">\[
+P(good|C) = \frac{1}{100}  
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+P(bad|\bar{C}X) &amp;= P(bad|A+B,X) \\
+&amp;= P(bad|AX) \cdot P(A|\bar{C}X) + P(bad|BX) \cdot P(B|\bar{C}X) \\
+&amp;= \left(\frac{1}{3} \cdot \frac{1}{11}\right) + \left(\frac{1}{6}
+\cdot \frac{10}{11}\right)
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+P(good|\bar{C}X) &amp;= P(good|A+B,X) \\
+&amp;= P(good|A) \cdot P(A|\bar{C}X) + P(good|B) \cdot P(B|\bar{C}X) \\
+&amp;= \left(\frac{2}{3} \cdot \frac{1}{11}\right) + \left(\frac{5}{6}
+\cdot \frac{10}{11}\right)
+\end{aligned}
+\]</span></p>
+<p>Now we can plug everything in and we get</p>
+<p><span class="math display">\[
+f_1 =
+\frac{-\log\left(\frac{1/100}{9/11}\right)}{\log\left(\frac{99/100}{2/11}\right)
+- \log\left(\frac{1/100}{9/11}\right)} \approx 0.72
+\]</span></p>
+<p>Notice two things here.</p>
+<ol type="1">
+<li>The miniscule term for <span class="math inline">\(C\)</span> is not
+in the final equation for <span class="math inline">\(f_1\)</span>.</li>
+<li>0.72 is <em>between</em> the <span
+class="math inline">\(99%\)</span> of <span
+class="math inline">\(C\)</span> and the average <span
+class="math inline">\(\frac{2}{11}\)</span> of <span
+class="math inline">\(\bar{C}\)</span>.</li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Exercise 4.3</strong>
+</summary>
+<p>In this problem, we suppose that have a coin that is not fair. We
+have in our mind three stories to explain the future samples taken from
+flipping and looking at the coin. One story is that the coin will land
+heads <span class="math inline">\(\frac{1}{3}\)</span> of the time. The
+another story is that the coin will land heads <span
+class="math inline">\(\frac{1}{6}\)</span> of the time. The final story
+is that the coin will land heads <span
+class="math inline">\(\frac{99}{100}\)</span> times.</p>
+<p>However after many many flips we start averaging out at <span
+class="math inline">\(\frac{1}{4}\)</span> heads. What should we have
+done here?</p>
+<p>One answer is that we should have included many more Hypothesis, with
+a small <span class="math inline">\(\epsilon\)</span> value as their
+prior probability if we thought that they were unlikely, including one
+that predicts <span class="math inline">\(\frac{1}{4}\)</span> bad
+odds.</p>
+<p>The question then asks, if the math of probability aligns with human
+intuition that it would take many samples that average at <span
+class="math inline">\(\frac{1}{4}\)</span> heads to convince us that
+this new hypothesis and not the existing hypothesis are correct.</p>
+<p>In other words, how many samples with an average of <span
+class="math inline">\(\frac{1}{4}\)</span> heads would it take, with the
+prior provided in the textbook, to cause our reasoning robot to believe
+this new hypothesis is 50% likely?</p>
+<p>We solve this with the equation:</p>
+<p><span class="math display">\[e(F|DX) = e(F|X) +
+10\log_{10}\left[\frac{P(D|FX)}{P(D|\bar{F}X)}\right] = 0\]</span></p>
+<p>For <span class="math inline">\(m\)</span> tests with <span
+class="math inline">\(n\)</span> bad widgets, the likelihoods are:</p>
+<p><span class="math display">\[P(D|FX) = \left(\frac{1}{4}\right)^n
+\left(\frac{3}{4}\right)^{m-n}\]</span></p>
+<p><span class="math display">\[P(D|\bar{F}X) \approx P(D|BX) =
+\left(\frac{1}{6}\right)^n \left(\frac{5}{6}\right)^{m-n}\]</span></p>
+<p>Forming the likelihood ratio:</p>
+<p><span class="math display">\[\frac{P(D|FX)}{P(D|\bar{F}X)} =
+\left(\frac{1/4}{1/6}\right)^n
+\left(\frac{3/4}{5/6}\right)^{m-n}\]</span></p>
+<p>Assuming the observed fraction is <span class="math inline">\(n =
+\frac{m}{4}\)</span>:</p>
+<p><span class="math display">\[\frac{P(D|FX)}{P(D|\bar{F}X)} =
+\left(\frac{1/4}{1/6}\right)^{m/4}
+\left(\frac{3/4}{5/6}\right)^{3m/4}\]</span></p>
+<p>Taking the log:</p>
+<p><span
+class="math display">\[10\log_{10}\left[\frac{P(D|FX)}{P(D|\bar{F}X)}\right]
+= \frac{m}{4}(1.76) + \frac{3m}{4}(-0.46) = m(0.1) \text{
+db}\]</span></p>
+<p>Solving for <span class="math inline">\(m\)</span>:</p>
+<p><span class="math display">\[-60 + m(0.1) = 0\]</span></p>
+<p><span class="math display">\[m = 600 \text{ tests}\]</span></p>
+This makes intuitive sense compared to 4.2. Many more tests are required
+to get to the same level of belief in a hypothesis with a tiny prior
+probability if the data that is expected in the world of said hypothesis
+is similar to the data of the existing hypotheses.
+</details>
+<details>
+<summary>
+<strong>Exercise 4.4</strong>
+</summary>
+<p>This exercise shows that given infinite samples, evidence drifts
+towards the truth. Of course in real life, almost every human does many
+things to fool others and themselves, such as simply ignoring evidence
+that does not reinforce their cherished beliefs (<a
+href="https://www.google.com/search?q=charles+darwin+writing+something+down+if+it+disconfirms+his+beliefs+otherwise+the+mind+will+ignore+it+intentionally&amp;sca_esv=3133790e937d3e51&amp;rlz=1C5CHFA_enUS1124US1124&amp;udm=50&amp;fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIeioyp3OhN11EY0n5qfq-zEMZldv_eRjZ2XLYc5GnVnME7glWodDcaQwvGYJtospyFzluBQAvO9dOVWbRwr_xUsJjUO7yhaeqDjbi1T-qhblgVaLSz1pQM7FcoH6iV2J9JNEsSHyC_MLgDCOgmckVN2OA3fVwLrpuWMepZxcuI5Qdxx2O0Q&amp;aep=1&amp;ntc=1&amp;sa=X&amp;ved=2ahUKEwjz9J3Az8WRAxWZmIkEHa5lOg4Q2J8OegQIEBAE&amp;biw=1440&amp;bih=788&amp;dpr=2&amp;zx=1766008818707&amp;no_sw_cr=1&amp;mstk=AUtExfDcHZLxwq8CbUvDLwZvFZ_pIvyIvYXdBnDgo18jubfbRq10Qo1UF5AtXtaMgBMV4UbWL8C_y3YQ_6dMhsY0VM10ckmUpx5BFv5hq3fZNNYUU4ESclB8yhGqn52xRmZCPzrP9N0hC9Afl2tokXzP0dOkqvOW0Hrz-qYMes_AXP3T1Ci8OS-W6HFt_H4yP21eoxzg5W7X-6RlODJcNnNfkp0AtXidCoP2wRKVICfg-Dk6Td9lwaZy3vjgC9hP-nkkQN--ef1G8opfjw&amp;csuir=1">feedback
+mechanisms</a> must be used to avoid these traps).</p>
+<p>Realism aside, we are given the following information.<br />
+Hypothesis A: batch has <span class="math inline">\(\frac{1}{3}\)</span>
+defective (bad batch)<br />
+Hypothesis B: batch has <span class="math inline">\(\frac{1}{6}\)</span>
+defective (good batch)<br />
+Priors: <span class="math inline">\(e(A|X) = −10 \text{db}\)</span>,
+<span class="math inline">\(e(B|X) = +10 \text{db}\)</span><br />
+Bad widget found: <span class="math inline">\(+3\)</span> db for <span
+class="math inline">\(A\)</span><br />
+Good widget found: <span class="math inline">\(−1\)</span> db for <span
+class="math inline">\(A\)</span><br />
+<span class="math inline">\(e(A|DX) = -10 + 3n_b - n_g\)</span></p>
+<p>From this we can calculated an expected change in belief per
+sample.</p>
+<p><span class="math display">\[E[\Delta e] = \frac{1}{6}(+3) +
+\frac{5}{6}(-1) = -\frac{1}{3} \text{db}\]</span></p>
+<p>To reach <span class="math inline">\(+30\)</span> db for B means
+reaching <span class="math inline">\(−30\)</span> db for <span
+class="math inline">\(A\)</span>:<br />
+<span class="math display">\[-30 = -10 + \left(-\frac{1}{3}\right)n
+\implies n \approx 60 \text{ tests}\]</span></p>
+<p>To reach +20 db for A requires accumulating <span
+class="math inline">\(+30\)</span> db against the drift. The expected
+fraction bad under <span class="math inline">\(B\)</span> is <span
+class="math inline">\(1/6 ≈ 0.167\)</span>, but reaching <span
+class="math inline">\(+20\)</span> db for <span
+class="math inline">\(A\)</span> requires sustaining a fraction <span
+class="math inline">\(\geq \frac{1}{4}\)</span>. This is
+<em>exceedingly</em> unlikely.</p>
+</details>
+<details>
+<summary>
+<strong>Exercise 4.5</strong>
+</summary>
+<p>Jaynes is pointing out that Wald is tripping. In the real world,
+someone like Buffett thinks “based on the information that I have
+learned can I come to a reliable conclusion”, much much more than “on
+average how many pieces of information will I have to take in, in order
+to come to a reliable conclusion about a company from this industry”.
+(Apparently the Wald stuff is useful for factory managers who want to
+know how many widget’s their widget factory will have to allocate
+towards testing in order for quality assurance purposes, but this is not
+what I’m interested in).</p>
+</details>
+<details>
+<summary>
+<strong>Exercise 4.6</strong>
+</summary>
+You can solve essentially none of the preceding problems in Chapter 3
+and 4 using these rules because they completely ignore conditional
+probabilities.
+</details>
+<h2 id="chapter-5">Chapter 5</h2>
+<p>This chapter discusses how different priors affect updates in belief
+in the context of the modern world.</p>
+<p>In this context, Jaynes highlights that it is a common fallacy to say
+that data supports a hypothesis, because the effect of data on the
+beliefs of an individual depends on their priors.</p>
+<blockquote>
+<p>Not only in political speeches and news reporting, but wherever we
+seek for information on political matters, we run up against this same
+obstacle; we cannot trust anyone to tell us the truth, because we
+perceive that everyone who wants to talk about it is motivated either by
+self-interest or by ideology.</p>
+</blockquote>
+<p>Jaynes also makes a mockery of orthodox use of null hypotheses and
+lack of consideration of priors and alternative hypotheses. By failing
+to provide alternatives, you <strong>implicitly</strong> divide the
+probability space into the null hypothesis and an ill-defined
+alternative hypothesis that you <em>assume</em> is mutually exclusive
+from the null. He points out that this distinction is useful outside
+more rigorous environments.</p>
+<blockquote>
+<p>Even when the application is only qualitative, probability theory is
+still useful to us in a normative sense; it is the means by which we can
+detect inconsistencies in our own qualitative reasoning. It tells us
+immediately what has not been intuitively obvious to all workers: that
+alternatives are needed before we have any rational criterion for
+testing hypotheses.</p>
+</blockquote>
+<blockquote>
+<p>the real difficulty of the scientist is… is in learning how to
+formulate new alternatives which better fit the facts.</p>
+</blockquote>
+<details>
+<summary>
+<strong>Exercise 5.1</strong>
+</summary>
+<p>Julius Caesar was a real person:<br />
+Let say I’m finding ancient documents stating Caesar was propaganda and
+we <em>assume</em> (dangerous) that the odds of forgery are <span
+class="math inline">\(\frac{1}{10}\)</span> based on historical data of
+forgery rates adjusted for survivorship bias and the like. And let’s
+also assume that the letters are provably, using carbon dating, or some
+such technique, from different centuries &amp; civilizations such that
+their appearance is likely to not be casually related to one another. If
+I had to see 10 such letters, then my initial belief would be <span
+class="math inline">\(10 \cdot 10 = +100\text{db}\)</span></p>
+<p>Achilles was a real person:<br />
+I’m already at 50/50 state (neutral). So my belief is <span
+class="math inline">\(0\)</span>db.</p>
+<p>Owls can see in total darkness:<br />
+If you <em>define</em> sight as using a brain to resolve electron
+patterns hitting an eyeball into an object of conscioussness, and you
+<em>define</em> total darkness as a lack of electrons, then I would
+assign something like <span class="math inline">\(-1000000000\)</span>
+db, only leaving a small epsilon value to account for something like us
+being in a simulation where god can hack the owl’s code.</p>
+<p>Honestly, though there is value in this exercise, for some of these,
+when my prior is ungrounded, it makes more sense to put something in the
+“too hard” category (at least for investment purposes. )</p>
+</details>
+<details>
+<summary>
+<strong>Exercise 5.2</strong>
+</summary>
+<p>From equation 5.30, the posteriors can be represented by: <span
+class="math display">\[P(S|DI_X) = \frac{ax}{ax + b(1-x)}, \quad
+P(S|DI_Y) = \frac{ay}{ay + b(1-y)}\]</span></p>
+<p>Calculate their difference.</p>
+<p><span class="math display">\[P(S|DI_X) - P(S|DI_Y) = \frac{ax}{ax +
+b(1-x)} - \frac{ay}{ay + b(1-y)} = \frac{ab(x-y)}{[ax + b(1-x)][ay +
+b(1-y)]}\]</span></p>
+<p>Set the difference to be greater than that between the priors, which
+represented in the text by x and y.</p>
+<p><span class="math display">\[\frac{ab(x-y)}{[ax + b(1-x)][ay +
+b(1-y)]} &gt; x - y\]</span></p>
+<p>Dividing by <span class="math inline">\((x-y) &gt; 0\)</span>, &amp;
+simplify.</p>
+<p><span class="math display">\[ab &gt; [ax + b(1-x)][ay +
+b(1-y)]\]</span></p>
+<p><span class="math display">\[(a - b)[b(1-x)(1-y) - axy] &gt;
+0\]</span></p>
+<p><span class="math display">\[(a - b)\left[b(1-x)(1-y) - axy\right]
+&gt; 0\]</span></p>
+<p>Now we can say,<br />
+<span class="math inline">\(a &gt; b\)</span>: Divergence when <span
+class="math inline">\(b(1-x)(1-y) &gt; axy\)</span><br />
+<span class="math inline">\(a &lt; b\)</span>: Divergence when <span
+class="math inline">\(b(1-x)(1-y) &lt; axy\)</span><br />
+<span class="math inline">\(a = b\)</span>: No divergence possible</p>
+<p>The main point of this is that evidence moves everyone the same
+amount on the log scale, but the nonlinearity of probability means equal
+log-shifts produce unequal probability-shifts. So receiving identical
+information can push people’s probability assignments apart on an
+absolute scale.</p>
+</details>
+<details>
+<summary>
+<strong>Exercise 5.3</strong>
+</summary>
+<blockquote>
+<p>This uses odds form</p>
+</blockquote>
+<p>Prior Odds: <span class="math inline">\(O_x = \frac{x}{1-x}\)</span>
+and <span class="math inline">\(O_y = \frac{y}{1-y}\)</span><br />
+Likelihood Ratio (Weight of Evidence): <span class="math inline">\(L =
+\frac{P(D|S)}{P(D|\bar{S})}\)</span></p>
+<p>If the initial conditions for belief are:</p>
+<p><span class="math display">\[O_x &gt; O_y\]</span></p>
+<p>We can say a reversal will occur when:</p>
+<p><span class="math display">\[O_y \cdot L_y &gt; O_x \cdot
+L_x\]</span></p>
+Intuitively, reversal can occur when trust in the source reporting a
+piece of data differs greatly. For example, if you think Bob is a liar,
+and I think he is honest, if he agrees with you and disagrees with me
+about something, we’ll both update towards each other’s prior beliefs,
+which can cause reversal.
+</details>
+<details>
+<summary>
+<strong>Exercise 5.4</strong>
+</summary>
+<p>“+Y Jaynes asks if we should”return to the beginning” when we learn a
+previous datum was false. No we update as each new fact comes in.</p>
+We use the new evidence (the faulty telescope report, which negates the
+need for a larger mass to explain the previously reported wobble, but
+has less of an effect on our interpretation of the fact that pluto was
+found in the first place) to update our views about Newtonian Physics
+<em>without</em> discarding the prior observations.
+</details>
+<details>
+<summary>
+<strong>Exercise 5.5</strong>
+</summary>
+<p>This is not generally true. As <span class="math inline">\(p
+\rightarrow 1\)</span>, the right side of 5.43 approaches P(A|BCI) not
+P(A|BI). The only scenario when the two are equivalent is when C is
+conditionally independent of <span class="math inline">\(A\)</span>
+given <span class="math inline">\(B\)</span>. Normally this is not the
+case.</p>
+To take the horse racing example in this chapter… imagine that the
+weather report about the muddy weather includes an alert about an
+imminent nuclear explosion nearby. Obviously this would have an effect
+on the race even though the report is ostensibly about the mud.
+</details>
+<details>
+<summary>
+<strong>Exercise 6.1</strong>
+</summary>
+<h3 id="derivation">Derivation</h3>
+<p>We are asked to find the posterior <span
+class="math inline">\(P(R|r=n,NI_1)\)</span></p>
+<p><span class="math inline">\(I_1\)</span>, which stands for <span
+class="math inline">\(1 \leq R \leq N-1\)</span>, is jargon for “there
+is at least one red and one white ball”.<br />
+<span class="math inline">\(r=n\)</span> is jargon for “all the balls we
+drew (n) were red”.</p>
+<hr />
+<p>We know the “hypergeometric sampling distribution” (6.1) which is a
+fancy name for an equation that will tell us the sampling distribution
+of an urn given some starting information.</p>
+<p>N: Total population size.<br />
+R: Total number of items in the population classified as “successes”
+(e.g. red balls).<br />
+n: The number of items drawn (the sample size).<br />
+r: The specific number of successes found in that sample of size n. </p>
+<p><span class="math display">\[p(D|NRI) =
+\binom{N}{n}^{-1}\binom{R}{r}\binom{N-R}{n-r}\]</span></p>
+<p>Given <span class="math inline">\(r=n\)</span>, we know <span
+class="math inline">\(\binom{N-R}{n-r}\)</span> becomes 1, since the
+lower term is 0, and there is only 1 way to choose 0 items from any set
+of items.</p>
+<hr />
+<p>We also know from 6.37 the following.</p>
+<p><span class="math display">\[p(R|NI_1) = \frac{1}{N-1}, \quad 1 \leq
+R \leq N-1\]</span></p>
+<hr />
+<p>From here, let’s start using bayes to find the posterior. We can
+write down bayes, then plug in some of the values we’ve written down
+above.</p>
+<p><span class="math display">\[p(R|r=n, NI_1) = \frac{p(D|NRI_1) \cdot
+p(R|NI_1)}{p(D|NI_1)}\]</span></p>
+<p>Substituting: <span class="math display">\[p(R|r=n, NI_1) =
+\frac{\binom{N}{n}^{-1}\binom{R}{n} \cdot \frac{1}{N-1}}{\sum_{R&#39;}
+\binom{N}{n}^{-1}\binom{R&#39;}{n} \cdot \frac{1}{N-1}}\]</span></p>
+<p>The factors <span class="math inline">\(\binom{N}{n}^{-1}\)</span>
+and <span class="math inline">\(\frac{1}{N-1}\)</span> cancel: <span
+class="math display">\[p(R|r=n, NI_1) =
+\frac{\binom{R}{n}}{\sum_{R&#39;}\binom{R&#39;}{n}}\]</span></p>
+<p><span class="math inline">\(\binom{R}{n}\)</span> can’t be zero
+nonzero. We need to be able to say <span class="math inline">\(R \geq
+n\)</span>. Combine this constraint with our other prior and get <span
+class="math display">\[n \leq R \leq N-1\]</span></p>
+<p>We also need to transform the sum in the denominator. We’ll do this
+by pulling some deus ex machina out of our ass and use the <a
+href="https://en.wikipedia.org/wiki/Hockey-stick_identity">hockey stick
+identity</a>.</p>
+<p><span class="math display">\[S = \sum_{R=n}^{N-1}\binom{R}{n} =
+\binom{N}{n+1}\]</span></p>
+<p>After that we can say.</p>
+<p><span class="math display">\[p(R|r=n, NI_1) =
+\binom{N}{n+1}^{-1}\binom{R}{n}, \quad n \leq R \leq N-1\]</span></p>
+<h3 id="computing-the-mean">Computing the Mean</h3>
+<p>We need to find: <span class="math display">\[\langle R \rangle =
+\binom{N}{n+1}^{-1}\sum_{R=n}^{N-1} R\binom{R}{n}\]</span></p>
+<p>The summation terms need to go. We can use the following identity and
+the hockey stick identity to get rid of them.</p>
+<p><span class="math display">\[R\binom{R}{n} = (n+1)\binom{R}{n+1} +
+n\binom{R}{n}\]</span></p>
+<p><span class="math display">\[\sum_{R=n}^{N-1} R\binom{R}{n} =
+(n+1)\sum_{R=n+1}^{N-1}\binom{R}{n+1} +
+n\sum_{R=n}^{N-1}\binom{R}{n}\]</span></p>
+<p><span class="math display">\[= (n+1)\binom{N}{n+2} +
+n\binom{N}{n+1}\]</span></p>
+<p>Now plug this back into our expression for <span
+class="math inline">\(\langle R \rangle\)</span>:</p>
+<p><span class="math display">\[\langle R \rangle_{I_1} =
+\binom{N}{n+1}^{-1}\left[(n+1)\binom{N}{n+2} +
+n\binom{N}{n+1}\right]\]</span></p>
+<p><span class="math display">\[=
+(n+1)\frac{\binom{N}{n+2}}{\binom{N}{n+1}} + n\]</span></p>
+<p>We need to simplify that ratio of binomials. Writing them out:</p>
+<p><span class="math display">\[\frac{\binom{N}{n+2}}{\binom{N}{n+1}} =
+\frac{N!/[(n+2)!(N-n-2)!]}{N!/[(n+1)!(N-n-1)!]}\]</span></p>
+<p>The <span class="math inline">\(N!\)</span> cancels. Flipping the
+denominator:</p>
+<p><span class="math display">\[=
+\frac{(n+1)!(N-n-1)!}{(n+2)!(N-n-2)!}\]</span></p>
+<p><span class="math inline">\((n+2)! = (n+2)(n+1)!\)</span> so <span
+class="math inline">\((n+1)!\)</span> cancels leaving <span
+class="math inline">\(1/(n+2)\)</span> on top.</p>
+<p><span class="math inline">\((N-n-1)! = (N-n-1)(N-n-2)!\)</span> so
+<span class="math inline">\((N-n-2)!\)</span> cancels leaving <span
+class="math inline">\((N-n-1)\)</span> on top.</p>
+<p><span class="math display">\[= \frac{N-n-1}{n+2}\]</span></p>
+<p><span class="math display">\[\langle R \rangle_{I_1} =
+\frac{(n+1)(N-n-1)}{n+2} + n\]</span></p>
+<p>Combine over common denominator:</p>
+<p><span class="math display">\[= \frac{(n+1)(N-n-1) +
+n(n+2)}{n+2}\]</span></p>
+<p>Expand the numerator: <span class="math display">\[(n+1)(N-n-1) =
+(n+1)N - (n+1)(n+1) = (n+1)N - (n+1)^2\]</span> <span
+class="math display">\[= (n+1)N - n^2 - 2n - 1\]</span></p>
+<p><span class="math display">\[n(n+2) = n^2 + 2n\]</span></p>
+<p>Add them: <span class="math display">\[(n+1)N - n^2 - 2n - 1 + n^2 +
+2n = (n+1)N - 1\]</span></p>
+<p>So: <span class="math display">\[\langle R \rangle_{I_1} =
+\frac{(n+1)N - 1}{n+2}\]</span></p>
+<hr />
+<h3 id="comparing-to-the-i_0-result">Comparing to the <span
+class="math inline">\(I_0\)</span> Result</h3>
+<p>Equation (6.24) gives us the mean under the uniform prior <span
+class="math inline">\(I_0\)</span>:</p>
+<p><span class="math display">\[\langle R+1 \rangle =
+\frac{(N+2)(r+1)}{n+2}\]</span></p>
+<p>So: <span class="math display">\[\langle R \rangle_{I_0} =
+\frac{(N+2)(r+1)}{n+2} - 1\]</span></p>
+<p>With <span class="math inline">\(r=n\)</span>: <span
+class="math display">\[= \frac{(N+2)(n+1)}{n+2} - 1 = \frac{(N+2)(n+1) -
+(n+2)}{n+2}\]</span></p>
+<p>Expand: <span class="math display">\[(N+2)(n+1) - (n+2) = (n+1)N +
+2(n+1) - (n+2)\]</span> <span class="math display">\[= (n+1)N + 2n + 2 -
+n - 2 = (n+1)N + n\]</span></p>
+<p>So: <span class="math display">\[\langle R \rangle_{I_0} =
+\frac{(n+1)N + n}{n+2}\]</span></p>
+<hr />
+<h3 id="the-difference">The Difference</h3>
+<p><span class="math display">\[\langle R \rangle_{I_0} - \langle R
+\rangle_{I_1} = \frac{(n+1)N + n}{n+2} - \frac{(n+1)N - 1}{n+2} =
+\frac{n+1}{n+2}\]</span></p>
+<p>This is a number slightly less than 1. So the <span
+class="math inline">\(I_1\)</span> estimate is about 1 lower than the
+<span class="math inline">\(I_0\)</span> estimate.</p>
+<hr />
+<h3 id="intuition">Intuition</h3>
+<p>When you draw <span class="math inline">\(n\)</span> balls and
+they’re all red, the data suggests, under <span
+class="math inline">\(I_0\)</span> where the hypothesis <span
+class="math inline">\(R=N\)</span> (the urn is entirely red) is allowed,
+is the most supported hypothesis.</p>
+<p>Under <span class="math inline">\(I_1\)</span>, we know there’s at
+least one white ball. Therefore <span class="math inline">\(R=N\)</span>
+is impossible. Because of this smaller values of <span
+class="math inline">\(R\)</span> are weighted higher instead, which
+drags the mean down.</p>
+<hr />
+<h3 id="prior-3-leq-r-leq-n">Prior <span class="math inline">\((3 \leq R
+\leq N)\)</span>?</h3>
+<p>This prior says “at least 3 red balls, but no restriction on white
+balls.”</p>
+<p>If <span class="math inline">\(n \geq 3\)</span>: The data already
+force <span class="math inline">\(R \geq n \geq 3\)</span>, so the
+prior’s lower bound is redundant. The calculation would be identical to
+<span class="math inline">\(I_0\)</span>.</p>
+<p>If <span class="math inline">\(n &lt; 3\)</span>: Say <span
+class="math inline">\(n=2\)</span>, meaning we drew 2 balls, both red.
+Under <span class="math inline">\(I_0\)</span>, the range is <span
+class="math inline">\(R \in \{2,3,...,N\}\)</span>. Under this new
+prior, the range is <span class="math inline">\(R \in
+\{3,4,...,N\}\)</span>. We’ve chopped off the bottom the smallest
+allowed value. This raises the mean, opposite to <span
+class="math inline">\(I_1\)</span>.</p>
+<p>The key intuition: <span class="math inline">\(I_1\)</span> removes
+the top (<span class="math inline">\(R=N\)</span>), lowering the mean.
+This new prior removes the bottom, raising the mean. Which prior matters
+depends on which constraint is of the greatest import given your
+data.</p>
+</body>
+</html>

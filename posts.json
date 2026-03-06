@@ -1,0 +1,19 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "Ankicode",
+      "date": "2024-10-19"
+    },
+    {
+      "id": 2,
+      "title": "Looking For A Word",
+      "date": "2025-10-24"
+    },
+    {
+      "id": 3,
+      "title": "Basic Probability Theory",
+      "date": "2025-10-25"
+    }
+  ]
+}
